@@ -1,0 +1,19 @@
+classdef FullBoundary
+   properties
+      Boundaries
+   end
+   methods
+      function obj = FullBoundary()
+         obj.Boundaries = cell(1);
+      end 
+      function obj = addBoundary(obj, aBoundary)
+          
+          aBoundary =createSymbolicFunction(string_of_vars,function_string);
+          obj.Boundaries = addMoreCellsToRowOrColumnArray(obj.Boundaries, 1, 2);
+          obj.Boundaries{1, } = aBoundary
+      end
+      function obj = checkAllVariablesAreBounded(obj)
+          
+      end
+   end
+end

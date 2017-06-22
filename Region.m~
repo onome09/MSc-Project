@@ -1,0 +1,18 @@
+classdef Region
+   properties
+      boundaries
+      functions
+      variables
+   end
+   methods
+      function r = Region(string_of_vars, components, full_boundaries)
+          r.functions = cell(components);
+          r.variables = string_of_vars;
+          boundaries = full_boundaries;
+      end
+
+      function r = addFunction(r,function_string,component)
+          r.functions{component} = Function(obj.variables, function_string);
+      end
+   end
+end

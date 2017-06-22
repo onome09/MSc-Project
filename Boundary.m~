@@ -1,0 +1,11 @@
+classdef Boundary
+   properties
+      symbolic_boundary
+      symbolic_variables
+   end
+   methods
+      function obj = Boundary(variable_string, boundary_string)
+          symbolic_boundary
+      end      
+   end
+end
