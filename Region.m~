@@ -1,18 +1,18 @@
 classdef Region
    properties
-      boundaries
       functions
-      variables
+      symbolic_variables
    end
    methods
-      function r = Region(string_of_vars, components, full_boundaries)
-          r.functions = cell(components);
-          r.variables = string_of_vars;
-          boundaries = full_boundaries;
+      function r = Region(string_of_vars, set_of_functions)
+          r.symbolic_variables = createSymbolicVariables(string_of_vars);
+          r.functions = set_of_functions.Functions;
       end
-
-      function r = addFunction(r,function_string,component)
-          r.functions{component} = Function(obj.variables, function_string);
+      
+      function r = flatten(obj)
+          variable_string = createFlattenedVariableString(obj.symbolic_variables, size(obj.functions,2));
+          r = varString2Array(variable_string);
+          r = createFlattenedFunction(r,obj.functions, );
       end
    end
 end

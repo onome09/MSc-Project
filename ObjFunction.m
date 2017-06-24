@@ -8,8 +8,7 @@ classdef ObjFunction
          obj.function_mapping = aFullRegion;
          obj.jacobian_matrices = cell(0);
       end 
-      
-      
+     
       function obj = getJacobian(obj)
           
       end
