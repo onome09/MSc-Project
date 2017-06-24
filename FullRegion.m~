@@ -1,0 +1,24 @@
+classdef FullRegion
+   properties
+       domain
+       no_of_regions
+       regions
+   end
+   methods
+      function obj = FullRegion(aDomain)
+         obj.domain = aDomain; 
+         obj.no_of_regions = size(aDomain.symbolic_variables,2)^size(aDomain.hyperplanes,2);
+         obj = obj.initialiseRegionInfo();
+         
+      end
+      function obj = initialiseRegionInfo(obj)
+         obj.regions = cell(2,obj.no_of_regions);
+         regionBoundary = zeros()
+         
+         
+      end
+      
+     
+   end
+end
+

@@ -1,0 +1,20 @@
+classdef Domain
+   properties
+      symbolic_variables
+      no_of_components
+      hyperplanes
+      no_of_regions
+   end
+   methods
+      function r = Domain(symbolic_variables, no_of_compnents)
+          r.symbolic_variables = symbolic_variables;
+          r.no_of_components = no_of_compnents;
+      end
+      
+      function obj = addHyperplane(obj, aHyperPlane)
+         obj.hyperplanes = addMoreCellsToRowOrColumnArray(obj.hyperplanes, 1, 2);
+         obj.hyperplanes{1, size(obj.hyperplanes,2)} = aHyperPlane;
+         no_of_regions = 
+      end
+   end
+end
