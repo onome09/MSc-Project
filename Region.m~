@@ -1,18 +1,33 @@
 classdef Region
    properties
+      variable_string
       functions
       symbolic_variables
    end
    methods
-      function r = Region(string_of_vars, set_of_functions)
+      function r = Region(string_of_vars, aFullFunction)
           r.symbolic_variables = createSymbolicVariables(string_of_vars);
-          r.functions = set_of_functions.Functions;
+          r.functions = aFullFunction.Functions;
+          r.variable_string = string_of_vars;
+          
       end
       
       function r = flatten(obj)
-          variable_string = createFlattenedVariableString(obj.symbolic_variables, size(obj.functions,2));
-          r = varString2Array(variable_string);
-          r = createFlattenedFunction(r,obj.functions, );
+          flattened_variable_string = createFlattenedVariableString(obj.symbolic_variables, size(obj.functions,2));
+          r = varString2Array(flattened_variable_string);
+          r = createFlattenedFunctionString(varString2Array(obj.variable_string),r,obj.functions, size(obj.symbolic_variables,2));
+          r = Function(flattened_variable_string,r);
+      end
+      
+      function r = calculateLimitOfDerivative(obj)
+            r = jacobian([obj.functions{1,1}.symbolic_function,obj.functions{1,2}.symbolic_function],sym(obj.symbolic_variables));
+
+            for i = 1:size(obj.symbolic_variables,2)
+                if 
+                r = limit(r,obj.symbolic_variables(1,i),0);
+                else
+                end
+                end
       end
    end
 end
