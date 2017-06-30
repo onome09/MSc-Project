@@ -12,8 +12,7 @@ classdef Domain
       end
       
       function obj = addHyperplane(obj, aHyperPlane)
-         obj.hyperplanes = addToCellRow(obj.hyperplanes ,aHyperPlane);
-         
+         obj.hyperplanes = addToCellRow(obj.hyperplanes ,aHyperPlane);         
       end
    end
 end
