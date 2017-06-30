@@ -33,5 +33,11 @@ for i = 1:size(aFullRegion.regions,1)
     aFullRegion.showEnclosingHyperPlanesOfARegion(i);
     disp('------------------------')
 end
+%Inserting the function info for each region
+aFullRegion = aFullRegion.insertRegionFunctionInfo(aRegion2,1);
+aFullRegion = aFullRegion.insertRegionFunctionInfo(aRegion2,2);
+aFullRegion = aFullRegion.insertRegionFunctionInfo(aRegion2,3);
+aFullRegion = aFullRegion.insertRegionFunctionInfo(aRegion1,4);
 
-
+%get the generalised Jacobian using the convexhull function
+aFullRegion.getJacobian

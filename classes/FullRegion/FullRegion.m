@@ -2,6 +2,7 @@ classdef FullRegion
    properties
        domain
        no_of_regions
+       master_regions
        regions
    end
    methods
@@ -10,17 +11,33 @@ classdef FullRegion
          obj.no_of_regions = size(aDomain.symbolic_variables,2)^size(aDomain.hyperplanes,2);
          obj = obj.initialiseRegionSize();
          obj = obj.AddAllRegionBoundaries();
-
+         obj.master_regions = cell(0);
       end
       function obj = initialiseRegionSize(obj)
-         obj.regions = cell(obj.no_of_regions,2);   
+         obj.regions = cell(obj.no_of_regions,3);   
       end
       function obj = AddAllRegionBoundaries(obj)
           C = createAllChoicesMatrix(size(obj.domain.symbolic_variables,2), size(obj.domain.hyperplanes,2));
           obj.regions = addRegionBoundariesToRegionCell(obj.regions, C);
       end
       function obj = insertRegionFunctionInfo(obj, aRegion, index)
+          
           obj.regions{index,1} = aRegion;
+          master_region_found = 1;
+          for i = 1:size(obj.master_regions,2)
+            if (obj.master_regions{1,i}.equals(aRegion))
+               master_region_found = 0;
+               obj.regions{index,3} = i;
+               break;
+            end
+          end
+          if (master_region_found > 0)
+              obj = obj.addMasterRegion(aRegion);
+              obj.regions{index,3} = size(obj.master_regions,2);
+          end
+      end
+      function obj = addMasterRegion(obj, aRegion)
+          obj.master_regions = addToCellRow(obj.master_regions, aRegion);
       end
       function hyperplane_list_cell_array = showEnclosingHyperPlanesOfARegion(obj, index)
           hyperplane_info = obj.regions{index,2};
@@ -36,9 +53,15 @@ classdef FullRegion
           end
           displayCellArray(hyperplane_list_cell_array)
       end
-      function x = getJacobian(obj)
-          
-        x = convhulln(array_of_jacobians);
+      function [points,area] = getJacobian(obj)
+        a = size(obj.master_regions{1,1}.symbolic_variables,2)*size(obj.master_regions{1,1}.function_strings,2);
+        array_of_jacobians = zeros(size(obj.master_regions,2),a);
+        for i = 1:size(obj.master_regions,2)
+            array_of_jacobians(i,:) = reshape(double(obj.master_regions{1,i}.calculateLimitOfDerivative),1,a);
+        end
+        
+        array_of_jacobians = getMoreRowVectorsByPeturbation(array_of_jacobians,a+1,0.0001);
+        [points,area] = convhulln(array_of_jacobians);
       end
    end
 end
