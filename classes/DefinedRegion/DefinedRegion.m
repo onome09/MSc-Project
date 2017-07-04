@@ -19,9 +19,7 @@ classdef DefinedRegion
              end
           end
           a = 0;    
-      end
-
-      
+      end      
       function obj = AddRegion(obj, aPoint, aHyperPlane, maxOrMin)
           if (isFound(obj,aPoint))
               a = isFound(obj,aPoint);

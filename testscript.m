@@ -21,6 +21,7 @@ aFullFunction2 = aFullFunction2.addFunction(aFunction3);
 aFullFunction2 = aFullFunction2.addFunction(aFunction4);
 
 %Defining info about newly made regions with the vector functions
+%and testing the other functions
 aRegion1 = Region('x,y',aFullFunction1);
 aRegion2 = Region('x,y',aFullFunction2);
 aRegion1.flatten;
@@ -39,5 +40,5 @@ aFullRegion = aFullRegion.insertRegionFunctionInfo(aRegion2,2);
 aFullRegion = aFullRegion.insertRegionFunctionInfo(aRegion2,3);
 aFullRegion = aFullRegion.insertRegionFunctionInfo(aRegion1,4);
 
-%get the generalised Jacobian using the convexhull function
+%get the generalised Jacobian using the convexhulln function
 aFullRegion.getJacobian

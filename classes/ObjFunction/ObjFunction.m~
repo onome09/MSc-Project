@@ -1,0 +1,31 @@
+classdef ObjFunction
+   properties
+      function_mapping
+      jacobian_matrices
+   end
+   methods
+      function obj = ObjFunction(aFullRegionorDefinedRegion)
+         obj.function_mapping = aFullRegionorDefinedRegion;
+         obj.jacobian_matrices = cell(0);
+      end 
+     
+      function obj = getJacobian(obj)
+          
+      end
+      function [xk,iteration]= optimiseNewtonMethod(aRegion,x0,learning_rate)
+          xk = x0;
+          iteration = 0;
+          jacobian = calculateJacobianExpression(aRegion);
+          hessian = calculateHessianExpression(aRegion);
+          sy
+          j = 1000;
+          while (j>stopping_criterion)
+            subbed_jacobian = subIntoJacobian(jacobian,xk);
+            subbed_hessian = subIntoHessian(hessian,xk);
+            [newton_step,j] = calculateNewtonStep(jacobian,hessian,xk);
+            xk = updateX(xk, newton_step,learning_rate);
+            iteration = iteration + 1;
+          end
+      end
+   end
+end

@@ -10,9 +10,7 @@ for k=1:size(j_array,1)
     j = j+1;
 end
 while (j < no_of_vectors_needed+1)
-    peturbArray(j_array(i,:),max_peturb)
-    output(j,:) = peturbArray(j_array(i,:),max_peturb);
-    
+    output(j,:) = peturbArray(j_array(i,:),max_peturb);   
     i = i+1;
     j = j+1;
     if (i == size(j_array,1))

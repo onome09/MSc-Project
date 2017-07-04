@@ -8,9 +8,14 @@ classdef FullRegion
    methods
       function obj = FullRegion(aDomain)
          obj.domain = aDomain; 
+         if (size(aDomain.hyperplanes,2))
          obj.no_of_regions = size(aDomain.symbolic_variables,2)^size(aDomain.hyperplanes,2);
          obj = obj.initialiseRegionSize();
          obj = obj.AddAllRegionBoundaries();
+         else
+             obj.no_of_regions = 1;
+         end
+
          obj.master_regions = cell(0);
       end
       function obj = initialiseRegionSize(obj)
