@@ -52,12 +52,29 @@ classdef ObjFunction
                 k = (i-1)*t + j;
                 if (hyperplane_info(k,1)>0)
                     
-                    if(~testPointInHyperPlane(cell_of_hyperPlane, ,point)
-                    
-                        
+                    if(~testPointInHyperPlane(cell_of_hyperplanes{1,j}, hyperplane_info(k,2),point))
+                        valid = 0;
+                        break; 
                     end
                 end
             end
+            if (valid)
+                indices_of_active_regions(i,1) = 1;
+            end
+        end
+      end
+      function subdifferential = calculateSubdifferential(obj,logical_column_of_active_regions, aPoint)
+        s = size(logical_column_of_active_regions>0,1);
+        array = zeros(s);
+        for i = 1:s    
+            if (logical_column_of_active_regions >0)
+                a =  obj.full_region.regions{i,1}.calculateLimitOfDerivative(aPoint);
+                array(i,:) = reshape(a,1,prod(a));
+            else
+                i = i-1;
+            end
+            
+            subdifferential = convhulln(array);
         end
       end
    end

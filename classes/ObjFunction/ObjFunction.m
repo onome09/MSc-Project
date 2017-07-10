@@ -63,5 +63,22 @@ classdef ObjFunction
             end
         end
       end
+      function subdifferential = calculateSubdifferential(obj,logical_column_of_active_regions, point_array)
+        s = size(logical_column_of_active_regions>0,1);
+        array = zeros(s,size(obj.full_region.domain.symbolic_variables,2)*obj.full_region.domain.no_of_components);
+        for i = 1:s    
+            if (logical_column_of_active_regions >0)
+                aPoint = Point(0,0);
+                aPoint.setPoint(point_array);
+                a = obj.full_region.regions{i,1}.calculateLimitOfDerivative(aPoint);
+                prod(a);
+                array(i,:) = reshape(a,1,numel(a));
+            else
+                i = i-1;
+            end
+        end
+        array
+        subdifferential = convhulln(array);
+      end
    end
 end
