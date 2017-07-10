@@ -1,4 +1,0 @@
-function [newton_step] = calculateNewtonStep(subbed_jacobian,subbed_hessian)
-  b = subbed_jacobian;
-    a = subbed_hessian
-    newton_step =  subbed_hessian\(0 - subbed_jacobian);

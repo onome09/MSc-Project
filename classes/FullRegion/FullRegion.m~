@@ -68,7 +68,15 @@ classdef FullRegion
         array_of_jacobians = getMoreRowVectorsByPeturbation(array_of_jacobians,a+1,0.0001);
         [points,area] = convhulln(array_of_jacobians);
       end
-      
+      function indices_of_active_regions = calculateActiveRegions(regions, point)
+        s = size(regions,1);
+        indices_of_active_regions = zeros(s,1);
+        for i = 1:s
+            hyperplane_info = regions{i,2};
+        
+        
+        end
+      end
    end
 end
 
