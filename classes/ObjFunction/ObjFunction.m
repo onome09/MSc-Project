@@ -7,8 +7,7 @@ classdef ObjFunction
       function obj = ObjFunction(aFullRegionorDefinedRegion)
          obj.full_region = aFullRegionorDefinedRegion;
          obj.jacobian_matrices = cell(0);
-      end
-      
+      end      
       function [xk,iteration]= optimiseNewtonMethod(obj,x0,learning_rate,stopping_criterion)
           aRegion = obj.full_region.regions{1,1};
           xk = x0;
@@ -26,17 +25,20 @@ classdef ObjFunction
       end
       
       function [xk,iteration]= optimiseSubgradientDescentMethod(obj,x0,learning_rate,stopping_criterion)
-          if (obj.full_region.domain.no_of_components > 1)
-             return; 
-          end
+          %if (obj.full_region.domain.no_of_components > 1)
+          %   return; 
+          %end
+          xkk = x0 + ones(size(x0));
           xk = x0;
           iteration = 0;
-          while (stopping_criterion)
-              logical_column_of_active_regions = calculateActiveRegions( xk);
-              subdifferential = calculateSubdifferential(logical_column_of_active_regions, xk);
-              subgradient_step = calculateSubgradientStep(subdifferential);
+          while ((norm(xk-xkk))>stopping_criterion)
+              xkk = xk;
+              logical_column_of_active_regions = obj.calculateActiveRegions( xk);
+              [~,~,array] = obj.calculateSubdifferential(logical_column_of_active_regions, xk);
+              subgradient_step = calculateSubgradientStep(array);
               xk = updateX(xk, subgradient_step,learning_rate);
               iteration = iteration + 1;
+              
           end
       end
       function indices_of_active_regions = calculateActiveRegions(obj, point)
@@ -63,22 +65,24 @@ classdef ObjFunction
             end
         end
       end
-      function subdifferential = calculateSubdifferential(obj,logical_column_of_active_regions, point_array)
+      function [subdifferential,area,new_array] = calculateSubdifferential(obj,logical_column_of_active_regions, point_array)
         s = size(logical_column_of_active_regions>0,1);
-        array = zeros(s,size(obj.full_region.domain.symbolic_variables,2)*obj.full_region.domain.no_of_components);
+        b = size(obj.full_region.master_regions{1,1}.symbolic_variables,2)*size(obj.full_region.master_regions{1,1}.function_strings,2);
+        
+        new_array = zeros(s,size(obj.full_region.domain.symbolic_variables,2)*obj.full_region.domain.no_of_components);
         for i = 1:s    
             if (logical_column_of_active_regions >0)
                 aPoint = Point(0,0);
                 aPoint.setPoint(point_array);
                 a = obj.full_region.regions{i,1}.calculateLimitOfDerivative(aPoint);
                 prod(a);
-                array(i,:) = reshape(a,1,numel(a));
+                new_array(i,:) = reshape(a,1,numel(a));
             else
                 i = i-1;
             end
-        end
-        array
-        subdifferential = convhulln(array);
-      end
+        end        
+        new_array = getMoreRowVectorsByPeturbation(new_array,b+1,0.0001);
+        [subdifferential,area] = convhulln(new_array);
+      end 
    end
 end

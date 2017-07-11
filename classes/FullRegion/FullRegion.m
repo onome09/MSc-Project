@@ -1,32 +1,20 @@
 classdef FullRegion
    properties
        domain
-       no_of_regions
        master_regions
-       regions
+       
    end
    methods
       function obj = FullRegion(aDomain)
          obj.domain = aDomain; 
-         if (size(aDomain.hyperplanes,2))
-         obj.no_of_regions = size(aDomain.symbolic_variables,2)^size(aDomain.hyperplanes,2);
-         obj = obj.initialiseRegionSize();
-         obj = obj.AddAllRegionBoundaries();
-         else
-             obj.no_of_regions = 1;
-         end
-
+         r = size(aDomain.hyperplanes,2);   
+         
          obj.master_regions = cell(0);
+         
       end
-      function obj = initialiseRegionSize(obj)
-         obj.regions = cell(obj.no_of_regions,3);   
-      end
-      function obj = AddAllRegionBoundaries(obj)
-          C = createAllChoicesMatrix(size(obj.domain.symbolic_variables,2), size(obj.domain.hyperplanes,2));
-          obj.regions = addRegionBoundariesToRegionCell(obj.regions, C);
-      end
+      
+      
       function obj = insertRegionFunctionInfo(obj, aRegion, index)
-          
           obj.regions{index,1} = aRegion;
           master_region_found = 1;
           for i = 1:size(obj.master_regions,2)
@@ -38,14 +26,14 @@ classdef FullRegion
           end
           if (master_region_found > 0)
               obj = obj.addMasterRegion(aRegion);
-              obj.regions{index,3} = size(obj.master_regions,2);
+              obj.domain.regions{index,3} = size(obj.master_regions,2);
           end
       end
       function obj = addMasterRegion(obj, aRegion)
           obj.master_regions = addToCellRow(obj.master_regions, aRegion);
       end
       function hyperplane_list_cell_array = showEnclosingHyperPlanesOfARegion(obj, index)
-          hyperplane_info = obj.regions{index,2};
+          hyperplane_info = obj.domain.egions{index,2};
           r = find(hyperplane_info(:,1)==1);
           hyperplane_list_cell_array = cell(sum(hyperplane_info(:,1)),2);
           for i = 1:sum(hyperplane_info(:,1))
