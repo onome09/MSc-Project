@@ -2,15 +2,11 @@ classdef FullRegion
    properties
        domain
        master_regions
-       
    end
    methods
       function obj = FullRegion(aDomain)
          obj.domain = aDomain; 
-         r = size(aDomain.hyperplanes,2);   
-         
-         obj.master_regions = cell(0);
-         
+         obj.master_regions = cell(0);         
       end
       
       
@@ -20,7 +16,7 @@ classdef FullRegion
           for i = 1:size(obj.master_regions,2)
             if (obj.master_regions{1,i}.equals(aRegion))
                master_region_found = 0;
-               obj.regions{index,3} = i;
+               obj.domain.regions{index,3} = i;
                break;
             end
           end
@@ -33,7 +29,7 @@ classdef FullRegion
           obj.master_regions = addToCellRow(obj.master_regions, aRegion);
       end
       function hyperplane_list_cell_array = showEnclosingHyperPlanesOfARegion(obj, index)
-          hyperplane_info = obj.domain.egions{index,2};
+          hyperplane_info = obj.domain.regions{index,2};
           r = find(hyperplane_info(:,1)==1);
           hyperplane_list_cell_array = cell(sum(hyperplane_info(:,1)),2);
           for i = 1:sum(hyperplane_info(:,1))

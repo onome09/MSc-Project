@@ -1,9 +1,0 @@
-function bool = componentsOfStructAreReal(object)
-bool = 1;
-fields = fieldnames(object)
-for i = 1:numel(fields)
-    object{i}
-  if(~isreal(object.(fields{1}){i}))
-      bool = 0;
-  end
-end

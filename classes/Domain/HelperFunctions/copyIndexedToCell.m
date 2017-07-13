@@ -1,5 +1,7 @@
-function output = copyIndexedToCell(input, indices)
+function output = copyIndexedToCell(input, indices,objects)
     output = cell(1,size(indices,2));
     for i = 1:size(indices,2)
-        output{1,i} = input{1,indices(1,i)};
+        
+        input{1,i} = objects{1,indices(:,i)}.symbolic_hyperplane_function;
     end
+    output = input;

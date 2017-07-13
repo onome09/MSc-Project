@@ -1,0 +1,6 @@
+function output = inputRegionInfo(input, choices,inequality)
+    for i = 1:size(choices,2)    
+        input(choices,1) = inequality(1,i);
+        input(choices,1) = inequality(1,i);
+
+    end
