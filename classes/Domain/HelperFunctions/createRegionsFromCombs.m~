@@ -1,0 +1,15 @@
+%looks to check each combination of hyperplanes up to max dimension
+
+function [regions,region_counter] = createRegionsFromCombs(regions,region_counter,combs,max_dim,hyperplanes,variables)
+    for i = 1:max_dim
+       for j = 1:size(combs{i,1},1) 
+           cell_of_eqns = formulateEquations(combs{i,1}(j,1),hyperplanes);
+           if (componentsOfStructAreReal(cell2sym(cell_of_eqns),variables))
+                  
+               [regions,region_counter] = createRegionsFromAValidComb(regions,region_counter,combs,i,hyperplanes,variables)
+               
+           else
+               
+           end
+       end
+    end
