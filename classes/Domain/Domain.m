@@ -18,20 +18,17 @@ classdef Domain
       function [obj] = calculateRegions(obj)
         s = size(obj.hyperplanes,2);
         t = size(obj.symbolic_variables,2);
-        obj.no_of_regions = 40;
+        obj.no_of_regions = noOfRegions(t,s);
         obj.regions = cell(obj.no_of_regions,4);
         for i = 1:obj.no_of_regions
             obj.regions{i,2} = zeros(s,2);            
         end        
-        cellOfCombinations = cell(t, 1);
-        for i = 1:t
-            cellOfCombinations{i,1} = createAllChoicesMatrix(i, s);
-        end
+        
         hyperplane_functions = cell(s,1);
         for i = 1:s
            hyperplane_functions{i,1} = obj.hyperplanes{1,i}.symbolic_hyperplane_function;  
         end
-        obj.regions = magic(obj.regions, cellOfCombinations, hyperplane_functions,obj.symbolic_variables);        
+        obj.regions = magic(obj.regions, hyperplane_functions,obj.symbolic_variables);        
       end
    end
 end
