@@ -1,12 +1,16 @@
 classdef FullRegion
    properties
        domain
+       regions
+       region_to_master_vector
        master_regions
    end
    methods
       function obj = FullRegion(aDomain)
          obj.domain = aDomain; 
-         obj.master_regions = cell(0);         
+         obj.master_regions = cell(0); 
+         obj.regions = obj.domain.regions;
+         obj.region_to_master_vector = zeros(size(obj.regions,1),1);
       end
       
       
@@ -16,13 +20,13 @@ classdef FullRegion
           for i = 1:size(obj.master_regions,2)
             if (obj.master_regions{1,i}.equals(aRegion))
                master_region_found = 0;
-               obj.domain.regions{index,3} = i;
+               obj.region_to_master_vector(index,:) = i;
                break;
             end
           end
           if (master_region_found > 0)
               obj = obj.addMasterRegion(aRegion);
-              obj.domain.regions{index,3} = size(obj.master_regions,2);
+              obj.region_to_master_vector(index,:) = size(obj.master_regions,2);
           end
       end
       function obj = addMasterRegion(obj, aRegion)

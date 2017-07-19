@@ -1,7 +1,9 @@
 function output = getMoreRowVectorsByPeturbation(j_array,no_of_vectors_needed,max_peturb)
+
 i = 1;
 j = 1;
 if (size(j_array,1) >= no_of_vectors_needed)
+    output = j_array;
     return
 end
 output = zeros(no_of_vectors_needed,size(j_array,2));

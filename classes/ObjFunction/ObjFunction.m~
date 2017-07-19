@@ -35,10 +35,9 @@ classdef ObjFunction
               
               logical_column_of_active_regions = obj.calculateActiveRegions( xk);
               logical_column_of_active_regions = obj.getOnlyMasterRegions(logical_column_of_active_regions);
-              if (obj.testFunction(xk,logical_column_of_active_regions)<stopping_criterion)
+              if (obj.testFunction(xk,logical_column_of_active_regions)>stopping_criterion)
                   break 
               end
-              xk
               [~,~,array] = obj.calculateSubdifferential(logical_column_of_active_regions, xk);
               
               subgradient_step = calculateSubgradientStep(array);
@@ -110,18 +109,22 @@ classdef ObjFunction
           end
             logical_column_of_active_regions = l;
       end
-      function output = testFunction(obj,xk,logical_column_of_active_regions)
+      function bool = testFunction(obj,xk,logical_column_of_active_regions)
         variables = obj.full_region.domain.symbolic_variables;
-        i = find(logical_column_of_active_regions==1,1);
-i
-        symfunction = obj.full_region.regions{i,1}.functions{1,1};
-        
-
+          bool = 0;
+        i = find(logical_column_of_active_regions==1,'first');
+            vars = '';
+    for i = 1:size(obj.full_region.domain.symbolic_variables,2)
+        if (i>1)
+            vars = strcat(vars,',');
+        end
+        vars = strcat(vars,obj.full_region.domain.symbolic_variables{1,i});
+    end
+    
     
     for i = 1:size(variables,2)
-        symfunction = subs(symfunction,variables(1,i),xk(i,1));
+        symfunction = subs(symfunction,variables{1,i},point(i,1));
     end
-        output = eval(symfunction);
       end
    end
 end

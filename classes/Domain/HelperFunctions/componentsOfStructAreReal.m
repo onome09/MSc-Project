@@ -1,7 +1,5 @@
 function bool = componentsOfStructAreReal(object)
 bool = 1;
-
-
 fields = fieldnames(object);
 for i = 1:numel(fields)
     object.(fields{i});
