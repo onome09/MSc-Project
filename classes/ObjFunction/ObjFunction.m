@@ -1,3 +1,7 @@
+%This class defines an objective function and takes in a fully defined
+%piecewise differentiable region or continuously differentiable region. If
+%the region is piecewise differentiable then the newton method cannot be
+%used
 classdef ObjFunction
    properties
       full_region
@@ -10,11 +14,8 @@ classdef ObjFunction
       end      
       function [xk,iteration]= optimiseNewtonMethod(obj,x0,learning_rate,stopping_criterion)
           aRegion = obj.full_region.regions{1,1};
-          xk = x0;
-          iteration = 0;
-          jacobian = calculateJacobianExpression(aRegion);
-          hessian = calculateHessianExpression(aRegion);
-          subbed_jacobian = 1000;
+          [xk,iteration,jacobian,hessian,subbed_jacobian] = initialiseForNewtonMethod(x0,aRegion);
+          
           while (norm(subbed_jacobian)>stopping_criterion)
             subbed_jacobian = subXIntoJacobian(jacobian,aRegion.symbolic_variables,xk);
             subbed_hessian = subXIntoHessian(hessian,aRegion.symbolic_variables,xk);
@@ -25,26 +26,18 @@ classdef ObjFunction
       end
       
       function [xk,iteration]= optimiseSubgradientDescentMethod(obj,x0,learning_rate,stopping_criterion)
-          %if (obj.full_region.domain.no_of_components > 1)
-          %   return; 
-          %end
-          xkk = x0 + ones(size(x0));
           xk = x0;
           iteration = 0;
-          while (1)
-              
-              logical_column_of_active_regions = obj.calculateActiveRegions( xk);
-              logical_column_of_active_regions = obj.getOnlyMasterRegions(logical_column_of_active_regions);
-              if (obj.testFunction(xk,logical_column_of_active_regions)<stopping_criterion)
-                  break 
-              end
-              xk
-              [~,~,array] = obj.calculateSubdifferential(logical_column_of_active_regions, xk);
-              
+          while (1)              
+              logical_column_of_active_regions = obj.calculateActiveRegions(xk);
+              logical_column_of_active_regions = obj.getOnlyMasterRegions(logical_column_of_active_regions);             
+              [~,~,array] = obj.calculateSubdifferential(logical_column_of_active_regions, xk);             
               subgradient_step = calculateSubgradientStep(array);
+              if (norm(subgradient_step)<stopping_criterion)
+                  break 
+              end              
               xk = updateX(xk, subgradient_step,learning_rate);
-              iteration = iteration + 1;
-              
+              iteration = iteration + 1;              
           end
       end
       function indices_of_active_regions = calculateActiveRegions(obj, point)
@@ -77,10 +70,11 @@ classdef ObjFunction
         
         new_array = zeros(s,size(obj.full_region.domain.symbolic_variables,2)*obj.full_region.domain.no_of_components);
         count = 1;
+
         for i = 1:(size(logical_column_of_active_regions,1))   
             if (logical_column_of_active_regions(i,1) >0)
                 aPoint = Point(0,0);
-                aPoint.setPoint(point_array);
+                aPoint = aPoint.setPoint(point_array);
                 a = obj.full_region.regions{i,1}.calculateLimitOfDerivative(aPoint);
                 prod(a);
                 new_array(count,:) = reshape(a,1,numel(a));
@@ -88,7 +82,7 @@ classdef ObjFunction
             else
                 
             end
-        end     
+        end 
         if (s < 2)
             subdifferential = 0;
             area = 0;
@@ -113,7 +107,7 @@ classdef ObjFunction
       function output = testFunction(obj,xk,logical_column_of_active_regions)
         variables = obj.full_region.domain.symbolic_variables;
         i = find(logical_column_of_active_regions==1,1);
-i
+
         symfunction = obj.full_region.regions{i,1}.functions{1,1};
         
 

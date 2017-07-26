@@ -13,7 +13,6 @@ classdef Point
       end
       function obj = setPoint(obj,point_array)
           obj.variables(1:size(point_array,1),1) = point_array;
-          
       end
       function obj = addHyperplane(obj, aHyperPlane, left_or_right)
           obj.hyperplanes_out = addRowToColumnArray(obj.hyperplanes_out, 1);

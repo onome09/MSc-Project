@@ -1,12 +1,15 @@
-function cell_of_eqns = formulateEquations(choice,hyperplanes,variables)
+function cell_of_eqns_strings = formulateEquations(choice,hyperplanes,variables)
     n = size(choice,2);
-    cell_of_eqns = cell(1,n);
+    cell_of_eqns_strings = cell(1,n);
     for i = 1:n
         if (choice(1,i) > 0)
-            hyperplanes{i,1} = replaceWithEqualsWithGreaterThanOrEqual(hyperplanes{i,1},variables);
+            hyperplanes{1,i} = replaceWithEqualsWithGreaterThanOrEqual(hyperplanes{1,i},variables);
         else
-            hyperplanes{i,1} = replaceWithEqualsWithLessThanOrEqual(hyperplanes{i,1},variables);
+            hyperplanes{1,i} = replaceWithEqualsWithLessThanOrEqual(hyperplanes{1,i},variables);
         end
-        cell_of_eqns{1,i} = hyperplanes{i,1};
+        char(hyperplanes{1,i})
+        cell_of_eqns_strings{1,i} = char(hyperplanes{1,i});
     
     end
+
+    

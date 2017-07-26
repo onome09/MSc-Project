@@ -34,7 +34,8 @@ classdef Region
           r = Function(flattened_variable_string,r);
       end
       
-      function r = calculateLimitOfDerivative(obj,aPoint)            
+      function r = calculateLimitOfDerivative(obj,aPoint)   
+            aPoint.variables
             r = jacobian(obj.functions,sym(obj.symbolic_variables));
             for i = 1:size(obj.symbolic_variables,2) 
                 if nargin < 2
