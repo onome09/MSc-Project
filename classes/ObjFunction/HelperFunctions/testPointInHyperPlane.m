@@ -1,7 +1,6 @@
-function bool = testPointInHyperPlane(aHyperPlane, lessorgreater,point)
-    variables = aHyperPlane.symbolic_variables;
-    symfunction = aHyperPlane.symbolic_hyperplane_function;
-    
+function bool = testPointInHyperPlane(aHyperPlane_symbolic_function, variables_string, lessorgreater,point)
+    symfunction = aHyperPlane_symbolic_function;
+    variables = createSymbolicVariables(variables_string);
     
     if (lessorgreater)
         newStr = strrep(char(symfunction),'==','>=');
@@ -13,12 +12,13 @@ function bool = testPointInHyperPlane(aHyperPlane, lessorgreater,point)
         if (i>1)
             vars = strcat(vars,',');
         end
-        vars = strcat(vars,variables{1,i});
+       
+        vars = strcat(vars,variables(1,i));
     end
     symfunction = createSymbolicFunction(vars,newStr);
     
     for i = 1:size(variables,2)
-        symfunction = subs(symfunction,variables{1,i},point(i,1));
+        symfunction = subs(symfunction,variables(1,i),point(i,1));
     end
     
     bool = logical(symfunction);
