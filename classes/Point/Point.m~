@@ -1,11 +1,15 @@
 classdef Point
   properties
     variables
+    hyperplanes_out
+    regions
   end
   methods      
       function obj = Point(varargin)
           obj.variables = zeros(nargin,1);
           obj.variables(1:nargin,1) = varargin{:};
+          obj.hyperplanes_out = cell(0,2);  
+          obj.regions = cell(0,2);
       end
       function obj = setPoint(obj,point_array)
           obj.variables(1:size(point_array,1),1) = point_array;
