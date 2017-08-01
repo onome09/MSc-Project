@@ -8,6 +8,7 @@ function bool = isAValidRegion(binary_combination,hyperplanes,variables)
                b(i,1) = b(i,1)+0.00001; 
         end        
     end
+    options = optimoptions(@linprog,'Display','off');
     [~,~,exitflag] = linprog(zeros(size(A,2),1),double(A),double(b));
     if(exitflag < 0)
         bool = 0;

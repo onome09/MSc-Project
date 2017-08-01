@@ -1,0 +1,24 @@
+function [jacobian_step,criterion] = calculateJacobianStep(array_of_vectorised_jacobians,no_of_variables)
+    s = size(array_of_vectorised_jacobians,2)/no_of_variables;
+    %coeffs = randomarray(size(array_of_gradients,1), 1);
+    coeffs = (1/size(array_of_vectorised_jacobians,1)*ones(size(array_of_vectorised_jacobians,1), 1));   
+    jacobian_step = repmat(coeffs,1,size(array_of_vectorised_jacobians,2));
+    jacobian = sum(jacobian_step.*array_of_vectorised_jacobians,1);
+    jacobian = reshape(jacobian,[s,no_of_variables]);
+    
+    criterion = norm(jacobian,Inf)
+    
+    x0 = ones(no_of_variables,1);
+    jacobian_step = fminimax(@fun,x0,[],[],[],[],[],[],@mycon);
+    function f = fun(x)
+        f = zeros(1,s);
+        for i = 1:s
+            f(1,i) = jacobian(i,:)*x;
+        end
+    end 
+    function [c,ceq] = mycon(x)
+        c = -1;
+        ceq = x'*x - 1; 
+    end
+end
+      
