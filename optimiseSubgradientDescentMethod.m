@@ -7,7 +7,8 @@ function [xk,iteration]= optimiseSubgradientDescentMethod(set_of_regions_functio
       subgradient_step = calculateSubgradientStep(array);
       if (norm(subgradient_step)<stopping_criterion)
           break 
-      end              
+      end           
+      xk
       [xk,learning_rate] = updateX(xk, set_of_regions_functions{1,find(logical_column_of_active_regions==1,1)},subgradient_step,learning_rate,createSymbolicVariables(variables))
       iteration = iteration + 1;              
   end

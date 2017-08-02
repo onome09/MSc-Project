@@ -11,5 +11,6 @@ function [xk,iteration]= optimiseVectorSubgradientDescentMethod(set_of_regions_f
           break 
       end
       [xk,learning_rate] = updateX(xk,set_of_regions_functions{1,find(logical_column_of_active_regions==1,1)} , jacobian_step,learning_rate,createSymbolicVariables(variables))
-      iteration = iteration + 1;              
+      iteration = iteration + 1;       
+      learning_rate = 0.5;
   end

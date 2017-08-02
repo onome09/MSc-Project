@@ -12,14 +12,15 @@ function [newX,learning_rate] = updateX(oldX,region_functions , newton_step,lear
         newX = oldX + learning_rate*newton_step;
         for i = 1:s
             f(i,:) = testRegionFunction(newX,region_functions{1,i},symbolic_variables);
-            if (f(i,:) > f1(i,:))
-               bool = 0;
-               break
-            end
+            f(i,:) = (f(i,:)-f1(i,:))/f1(i,:);
         end
-        learning_rate = learning_rate*0.9;
+        if (sum(f) > 0)
+            bool = 0;       
+        end
+        
+        learning_rate = learning_rate*0.5;
     end
-    learning_rate = learning_rate / 0.9;
+    learning_rate = learning_rate / 0.5;
     
 
         

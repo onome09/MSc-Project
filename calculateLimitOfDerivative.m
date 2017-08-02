@@ -1,5 +1,4 @@
 function r = calculateLimitOfDerivative(aFunction, variables_string, aPoint)
-
     variables = createSymbolicVariables(variables_string);
     
     r = jacobian(aFunction,variables);
