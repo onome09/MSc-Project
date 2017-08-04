@@ -3,9 +3,10 @@ classdef Point
     variables
   end
   methods      
-      function obj = Point(varargin)
-          obj.variables = zeros(nargin,1);
-          obj.variables(1:nargin,1) = varargin{:};
+      function obj = Point(n)
+          
+          obj.variables = zeros(n,1);
+          obj.variables(1:n,1) = zeros(n,1);
       end
       function obj = setPoint(obj,point_array)
           obj.variables(1:size(point_array,1),1) = point_array;

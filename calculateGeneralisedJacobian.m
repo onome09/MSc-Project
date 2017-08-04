@@ -6,7 +6,7 @@ function [subdifferential,area,array_of_vectorised_jacobians] = calculateGeneral
     count = 1;
     for i = 1:(size(logical_column_of_active_regions,1))   
         if (logical_column_of_active_regions(i,1) >0)
-            aPoint = Point(0,0);
+            aPoint = Point(b);
             aPoint = aPoint.setPoint(point_array);
             a = calculateLimitOfJacobian(set_of_regions_functions{1,i}, variables_string,aPoint);
             a = reshape(a,[1,c*b]);

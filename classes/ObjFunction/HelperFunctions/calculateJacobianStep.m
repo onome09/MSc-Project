@@ -10,6 +10,7 @@ function [jacobian_step,criterion] = calculateJacobianStep(array_of_vectorised_j
     jacobian
     %x0 = ones(no_of_variables,1);
     x0 = [0.2;0.8];
+    
     jacobian_step = fminimax(@fun,x0,[],[],[],[],[],[],@mycon);
     function f = fun(x)
         f = zeros(1,s);

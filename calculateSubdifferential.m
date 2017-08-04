@@ -6,8 +6,10 @@ function [subdifferential,area,new_array] = calculateSubdifferential(logical_col
 
     for i = 1:(size(logical_column_of_active_regions,1))   
         if (logical_column_of_active_regions(i,1) >0)
-            aPoint = Point(0,0);
+            
+            aPoint = Point(b);
             aPoint = aPoint.setPoint(point_array);
+            aPoint.variables;
             a = calculateLimitOfDerivative(set_of_regions_functions{1,i}, variables_string,aPoint);
             new_array(count,:) = a;
             count = count + 1;
