@@ -14,7 +14,7 @@ function [newX,learning_rate] = updateX(oldX,region_functions , newton_step,lear
             f(i,:) = testRegionFunction(newX,region_functions{1,i},symbolic_variables);
             if ((f(i,:)-f1(i,:)) > 0)
                 
-                bool = 0;
+                bool = 1;
                 
                 break
             end

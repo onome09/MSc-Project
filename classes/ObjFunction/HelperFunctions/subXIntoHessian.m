@@ -1,3 +1,4 @@
+%substitute
 function r = subXIntoHessian(hessian,var,xk)
     r = hessian;
     for i = 1:size(var,2)

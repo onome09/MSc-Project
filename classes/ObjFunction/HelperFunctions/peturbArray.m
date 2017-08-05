@@ -1,3 +1,4 @@
+%makes a small random change in each element of an array
 function output = peturbArray(array,max_pet)
 output = array;
 for i = 1:size(array,1)
