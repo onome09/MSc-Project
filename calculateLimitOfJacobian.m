@@ -1,9 +1,9 @@
-function rx = calculateLimitOfJacobian(aVectorFunction, variables_string, aPoint)
-
+%Calculates the limit of a Jacobian for a vector function at aPoint
+function Limit = calculateLimitOfJacobian(aVectorFunction, variables_string, aPoint)
     variables = createSymbolicVariables(variables_string);
     s = size(aVectorFunction,2);
     v = size(variables,2);
-    rx = zeros(s,v);
+    Limit = zeros(s,v);
     for i = 1:s
         r = jacobian(aVectorFunction{1,i},variables);
         for j = 1:v
@@ -13,5 +13,5 @@ function rx = calculateLimitOfJacobian(aVectorFunction, variables_string, aPoint
                 r = limit(r,variables(1,j),aPoint.variables(j,1));
             end
         end
-    rx(i,:) = r;
+    Limit(i,:) = r;
     end

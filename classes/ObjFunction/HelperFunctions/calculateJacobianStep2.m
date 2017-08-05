@@ -6,7 +6,6 @@ function [jacobian_step,criterion] = calculateJacobianStep2(x,array_of_vectorise
     jacobian_step = repmat(coeffs,1,size(array_of_vectorised_jacobians,2));
     jacobian = sum(jacobian_step.*array_of_vectorised_jacobians,1);
     jacobian = reshape(jacobian,[s,no_of_variables]);
-    
     criterion = norm(jacobian,Inf);
     
     f = zeros(s,1);
