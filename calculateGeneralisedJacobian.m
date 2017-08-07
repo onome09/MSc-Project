@@ -1,3 +1,4 @@
+
 function [subdifferential,area,array_of_vectorised_jacobians] = calculateGeneralisedJacobian(logical_column_of_active_regions,set_of_regions_functions, point_array,variables_string)
     s = sum(logical_column_of_active_regions,1);
     b = size(varString2Array(variables_string),2);

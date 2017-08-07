@@ -7,8 +7,6 @@ for i = 1:size(array,1)
            string = strcat(string, '|');
        end
            string = strcat(string, array{i,j});
-   end
-   
-   disp(string)
-   
+   end   
+   disp(string)   
 end

@@ -6,8 +6,7 @@ function indices_of_active_regions = calculateActiveRegions(info_on_regions,cell
     for i = 1:s
         valid = 1;
         for j = 1:t
-            k = (i-1)*t + j;
-            
+            k = (i-1)*t + j;            
             if (hyperplane_info(k,1)>0)
                 if(~testPointInHyperPlane(cell_of_hyperplanes{1,j},variables_string, hyperplane_info(k,2),point))
                     valid = 0;
