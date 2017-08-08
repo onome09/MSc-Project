@@ -1,0 +1,9 @@
+s = randi([-5 5],6,3);
+
+con = convhulln(s);
+new_points = getUniquePoints(con, points)
+
+scatter3(s(:,1),s(:,2),s(:,3))
+
+trisurf(con,s(:,1), s(:,2),s(:,3))
+unique
