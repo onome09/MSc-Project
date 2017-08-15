@@ -1,5 +1,6 @@
-function [shape_vertices,G] = modifyPolytope(shape_vertices,G,neighbouring_vertices_indices,new_points_connected,edge_matrix_for_new_points)
+function [shape_vertices,G] = modifyPolytope(shape_vertices,G,neighbouring_vertices_indices,new_points_connected,edge_matrix_for_new_points,vertex_to_remove)
     shape_vertices = [shape_vertices;new_points_connected];
+    shape_vertices(vertex_to_remove,:) = [];
     n1 = size(G.Nodes,1);
     
     G = addnode(G,size(new_points_connected,1));
@@ -9,7 +10,6 @@ function [shape_vertices,G] = modifyPolytope(shape_vertices,G,neighbouring_verti
     end
     e = edge_matrix_for_new_points;
     m = size(e,1);
-    n = size(e,2);
     for i = 1:m
         for j = 1:i
             if (e(i,j) > 0 )
@@ -18,3 +18,5 @@ function [shape_vertices,G] = modifyPolytope(shape_vertices,G,neighbouring_verti
             end
         end        
     end
+    G = rmnode(G,vertex_to_remove);
+    %G.Edges
