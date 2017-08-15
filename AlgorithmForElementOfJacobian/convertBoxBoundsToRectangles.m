@@ -1,7 +1,7 @@
 %creates a list of the verteces of the hyperrectangle from the list of
 %box bounds and also returns an associated edge list for the hyperrectangle
 %to see which rectangle is connected to what.
-function [vertexes_of_hyperectangle,G] = convertBoxBoundsToRectangles(box_bounds)
+function [vertexes_of_hyperectangle,G,A] = convertBoxBoundsToRectangles(box_bounds)
     dim = size(box_bounds,1)/2;
     t = createBinaryCounterMatrix(dim);
     r = zeros(2^dim,dim);
@@ -25,6 +25,6 @@ function [vertexes_of_hyperectangle,G] = convertBoxBoundsToRectangles(box_bounds
     end
     
     vertexes_of_hyperectangle = r;
-    A
+    
     G = graph(A);
     
