@@ -5,6 +5,7 @@ function [edge_matrix] = workOutConvexConnections(vertices)
     if (n > size(vertices,2))
         convex_hull = convhulln(dimred(vertices));
         edge_matrix = populateEdgeMatrix(convex_hull,n);
+        disp('hoo')
     else
         edge_matrix = 1 - eye(n);
     end
