@@ -2,8 +2,7 @@ function [new_points_connected,index_of_connecting_points,indices_of_vertices_to
     dim = size(shape_vertices,2);
     error = 0;
     [indices] = findIndicesOfNeighbouringVertices(index,G);
-    shape_vertices(index,:)
-    shape_vertices(indices,:)
+    
     indices(indices==prev_index,:) = [];
     if size(indices,1) < 1
        return 
@@ -14,7 +13,8 @@ function [new_points_connected,index_of_connecting_points,indices_of_vertices_to
     for i = 1:size(indices,1)
        [A,b] = generateLinearSystemForNewPoint(hyperplane_parameters,value,shape_vertices(index,:),shape_vertices(indices(i,1),:));   
        t = det(A);
-       if (abs(t) < 0.0000001)
+       if (abs(t) < 0.000000000000000000001) 
+          
           error = 1;
           break
        end
@@ -28,7 +28,9 @@ function [new_points_connected,index_of_connecting_points,indices_of_vertices_to
        else 
             [A,b] = generateLinearSystemForNewPoint(hyperplane_parameters,-value,shape_vertices(index,:),shape_vertices(indices(i,1),:));   
             t = det(A);
-            if (abs(t) < 0.0000001)
+            if (abs(t) < 0.000000000000000000001)
+
+                
                 error = 1;
                 break
             end

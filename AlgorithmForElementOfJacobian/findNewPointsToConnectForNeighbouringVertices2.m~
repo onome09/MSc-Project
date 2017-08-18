@@ -1,9 +1,0 @@
-function [new_points_connected,vertices_to_delete] = findNewPointsToConnectForNeighbouringVertices2(orthogonal_unit_hyperplane_vector,value_of_equation,index,shape_vertices,G)
-    
-    vertices_to_delete = [];
-    new_points_connected = [];
-    [new_points_connected,vertices_to_delete,points_to_connect] = getPointsFromVertex(index,shape_vertices,G,orthogonal_unit_hyperplane_vector,value_of_equation,new_points_connected,[],e,0);
-       
- 
-  
-   
