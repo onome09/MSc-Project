@@ -12,30 +12,35 @@ shape_vertices = hyper_rectangle_vertices;
     a = 0;
     b = 0;
     c = 0;
-    r = 1.005;
+    r = 1;
 index = 1;
-for i = 1:1000
+for i = 1:3000
 disp(i)
     [orthogonal_unit_hyperplane_vector,neighbouring_vertices,neighbouring_vertices_indices,vertex] = getUnitVectorHyperPlaneOfNeighbours(index, shape_vertices,G);
+    if (checkIfHyperRectangleSurface(orthogonal_unit_hyperplane_vector))
+        error = 1;
+    else
     [value_of_equation] = getSupportFunctionValueMaximumForUnitVector(orthogonal_unit_hyperplane_vector);
     [new_points_connected,index_of_connecting_points,indices_of_vertices_to_delete,error] = findNewPointsToConnectForNeighbouringVertices2(orthogonal_unit_hyperplane_vector,value_of_equation,index,shape_vertices,G);
     edge_matrix_for_new_points = workOutConvexConnections(new_points_connected);
-
-
-    
-
-    
+    end
     if (error < 1)
         [shape_vertices,G] = modifyPolytope(shape_vertices,G,index_of_connecting_points,new_points_connected,edge_matrix_for_new_points,indices_of_vertices_to_delete);    
+        
     else 
-       disp('hii') 
+       index = index+1;
+       disp('hii')
     end
-    index = 1;
-    %plot sphere and stuff lol
     
-    %index = randi(size(shape_vertices,1));
-end
 
+   
+end
+disp(orthogonal_unit_hyperplane_vector)
+disp(value_of_equation)
+disp(new_points_connected)
+
+
+s= shape_vertices;
 
 if size(new_points,2) < 3
     
@@ -46,10 +51,10 @@ if size(new_points,2) < 3
 plot(x(k),y(k),'r-',x,y,'b*')
 else
 hold off
-    s = shape_vertices;
+
     trisurf(convhulln(s),s(:,1), s(:,2),s(:,3));
     hold on
     
-    surf(x*r+a, y*r+b, z*r+c);
+    %surf(x*r+a, y*r+b, z*r+c);
 end
 rotate3d on
