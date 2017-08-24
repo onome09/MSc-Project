@@ -1,2 +1,2 @@
-function [jacobianExpression] = calculateJacobianExpression(aRegion)
-    jacobianExpression = jacobian(aRegion.functions,sym(aRegion.symbolic_variables));
+function [jacobianExpression] = calculateJacobianExpression(objFunction,symbolic_variables)
+    jacobianExpression = jacobian(objFunction,symbolic_variables);

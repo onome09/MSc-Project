@@ -1,10 +1,12 @@
 function [new_points_connected,index_of_connecting_points,indices_of_vertices_to_delete,error] = getPointsFromVertex(index,shape_vertices,G,hyperplane_parameters,value,new_points_connected,index_of_connecting_points,indices_of_vertices_to_delete,prev_index)
     dim = size(shape_vertices,2);
+    
     error = 0;
-    [indices] = findIndicesOfNeighbouringVertices(index,G);
+    [indices] = findIndicesOfNeighbouringVertices(index,G)
     
     indices(indices==prev_index,:) = [];
     if size(indices,1) < 1
+        error = 1;
        return 
     end
     

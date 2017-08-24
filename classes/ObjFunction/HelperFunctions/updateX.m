@@ -1,4 +1,7 @@
 function [newX,learning_rate] = updateX(oldX,region_functions , newton_step,learning_rate,symbolic_variables)
+    if ~iscell(region_functions)
+        region_functions = {region_functions};
+    end
     s = size(region_functions,2);
     bool = 0;
     f1 = zeros(s,1);

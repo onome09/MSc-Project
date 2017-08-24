@@ -1,2 +1,2 @@
-function [HessianExpression] = calculateHessianExpression(aRegion)
-    HessianExpression = hessian(aRegion.functions{1,1},sym(aRegion.symbolic_variables));
+function [HessianExpression] = calculateHessianExpression(objFunction,symbolic_variables)
+    HessianExpression = hessian(objFunction,symbolic_variables);

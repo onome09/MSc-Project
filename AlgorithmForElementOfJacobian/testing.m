@@ -14,13 +14,24 @@ shape_vertices = hyper_rectangle_vertices;
     c = 0;
     r = 1.005;
 index = 1;
-for i = 1:1000
+iter = 800;
+h = waitbar(0,'Please wait...');
+
+for i = 1:iter
+    
 disp(i)
     [orthogonal_unit_hyperplane_vector,neighbouring_vertices,neighbouring_vertices_indices,vertex] = getUnitVectorHyperPlaneOfNeighbours(index, shape_vertices,G);
+    
     [value_of_equation] = getSupportFunctionValueMaximumForUnitVector(orthogonal_unit_hyperplane_vector);
+    
     [new_points_connected,index_of_connecting_points,indices_of_vertices_to_delete,error] = findNewPointsToConnectForNeighbouringVertices2(orthogonal_unit_hyperplane_vector,value_of_equation,index,shape_vertices,G);
     edge_matrix_for_new_points = workOutConvexConnections(new_points_connected);
-
+if (i == 800)
+    orthogonal_unit_hyperplane_vector
+    value_of_equation
+    new_points_connected
+    size(shape_vertices,1)
+end
 
     
 
@@ -32,9 +43,11 @@ disp(i)
     end
     index = 1;
     %plot sphere and stuff lol
-    
+    waitbar(i/iter,h)
+
     %index = randi(size(shape_vertices,1));
 end
+close(h)
 
 
 if size(new_points,2) < 3
