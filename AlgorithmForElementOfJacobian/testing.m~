@@ -22,12 +22,14 @@ for i = 1:iter
 disp(i)
     [orthogonal_unit_hyperplane_vector,neighbouring_vertices,neighbouring_vertices_indices,vertex] = getUnitVectorHyperPlaneOfNeighbours(index, shape_vertices,G);
     
+=======
 for i = 1:3000
 disp(i)
     [orthogonal_unit_hyperplane_vector,neighbouring_vertices,neighbouring_vertices_indices,vertex] = getUnitVectorHyperPlaneOfNeighbours(index, shape_vertices,G);
     if (checkIfHyperRectangleSurface(orthogonal_unit_hyperplane_vector))
         error = 1;
     else
+>>>>>>> 513fd079927e32e9540a630b3cc6197087e1839a
     [value_of_equation] = getSupportFunctionValueMaximumForUnitVector(orthogonal_unit_hyperplane_vector);
     
     [new_points_connected,index_of_connecting_points,indices_of_vertices_to_delete,error] = findNewPointsToConnectForNeighbouringVertices2(orthogonal_unit_hyperplane_vector,value_of_equation,index,shape_vertices,G);
@@ -66,6 +68,7 @@ end
 disp(orthogonal_unit_hyperplane_vector)
 disp(value_of_equation)
 disp(new_points_connected)
+>>>>>>> 513fd079927e32e9540a630b3cc6197087e1839a
 
 
 s= shape_vertices;
