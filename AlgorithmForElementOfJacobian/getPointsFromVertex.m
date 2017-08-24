@@ -3,7 +3,7 @@ function [new_points_connected,index_of_connecting_points,indices_of_vertices_to
     
     error = 0;
 
-    [indices] = findIndicesOfNeighbouringVertices(index,G)
+    [indices] = findIndicesOfNeighbouringVertices(index,G);
     
     indices(indices==prev_index,:) = [];
 
