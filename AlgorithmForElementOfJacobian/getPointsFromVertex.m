@@ -11,13 +11,12 @@ function [new_points_connected,index_of_connecting_points,indices_of_vertices_to
     for i = 1:size(indices_of_vertices_to_delete,1)
         indices(indices==indices_of_vertices_to_delete(i,:),:) = [];
     end
+    
     if size(indices,1) < 1
         error = 1;
        return 
     end
-    
     indices_of_vertices_to_delete = [indices_of_vertices_to_delete;index];
-
     for i = 1:size(indices,1)
        [A,b] = generateLinearSystemForNewPoint(hyperplane_parameters,value,shape_vertices(index,:),shape_vertices(indices(i,1),:));   
        t = det(A);

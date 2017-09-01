@@ -1,8 +1,6 @@
-
 %new_points = [-1 -1 -1; -1 -1 1; -1 1 -1; -1 1 1; 1 -1 -1; 1 -1 1; 1 1 -1; 1 1 1];
-new_points = [-3 -2 -2; -3 -2 2; -3 2 -2; -3 2 2; 3 -2 -2; 3 -2 2; 3 2 -2; 3 2 2];
 
-%new_points = [-2 -2; -2 2; 2 -2; 2 2];
+new_points = [-2 -2; -2 2; 2 -2; 2 2];
 
 [box_bounds] = getMinBoundingBox(new_points);
 
@@ -15,19 +13,19 @@ shape_vertices = hyper_rectangle_vertices;
     c = 0;
     r = 1.01;
 index = 1;
-iter = 200;
+iter = 4;
 h = waitbar(0,'Please wait...');
 i = 1;
 while i <iter && index<=size(shape_vertices,1)
+    shape_vertices
     [orthogonal_unit_hyperplane_vector,neighbouring_vertices,neighbouring_vertices_indices,vertex] = getUnitVectorHyperPlaneOfNeighbours(index, shape_vertices,G);
+    orthogonal_unit_hyperplane_vector
     if (checkIfHyperRectangleSurface(orthogonal_unit_hyperplane_vector)||~notTheSame(shape_vertices(index,:), shape_vertices(neighbouring_vertices_indices,:)))
         error = 1;
-        disp('hi')
     else
-        [value_of_equation] = ellipsoidSupportFunction(orthogonal_unit_hyperplane_vector,3,2,2);
+        [value_of_equation] = getSupportFunctionValueMaximumForUnitVector(orthogonal_unit_hyperplane_vector);
+    
         [new_points_connected,index_of_connecting_points,indices_of_vertices_to_delete,error] = findNewPointsToConnectForNeighbouringVertices2(orthogonal_unit_hyperplane_vector,value_of_equation,index,shape_vertices,G);
-
-        %[new_points_connected,index_of_connecting_points,indices_of_vertices_to_delete,error] = findNewPointsToConnectForNeighbouringVertices2(orthogonal_unit_hyperplane_vector,value_of_equation,index,shape_vertices,G);
         if (notTheSame(shape_vertices(index,:), new_points_connected))
             edge_matrix_for_new_points = workOutConvexConnections(new_points_connected);
         else
@@ -39,7 +37,7 @@ while i <iter && index<=size(shape_vertices,1)
         index = 1;
         i = i+1;
         waitbar(i/iter,h)
-    
+
     else 
        index = index+1;
        
@@ -65,7 +63,7 @@ plot(x(k),y(k),'r-',x,y,'b*')
 else
 hold off
 
-    trisurf(convhulln(s),s(:,1), s(:,2),s(:,3));
+    %trisurf(convhulln(s),s(:,1), s(:,2),s(:,3));
     hold on
     
 end
