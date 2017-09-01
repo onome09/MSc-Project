@@ -7,15 +7,16 @@ function [jacobian_step,criterion] = calculateJacobianStep(array_of_vectorised_j
     jacobian = reshape(jacobian,[s,no_of_variables]);   
     criterion = norm(jacobian,Inf)
     x0 = [0.5;1];
-    jacobian_step = fminimax(@fun,x0,[],[],[],[],[],[],[])
+    jacobian_step = fminimax(@fun,x0,[],[],[],[],[],[],[]);
     function f = fun(x)       
         for i = 1:s
+            
             f(i) = jacobian(i,:)*x + 0.5*norm(x,2)^2;
         end
     end 
     function [c,ceq] = mycon(x)
         c = - 1;
-        ceq =  0;
+        ceq =  (x'*x)^0.5 - 1
     end
 end
       

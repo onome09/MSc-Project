@@ -39,7 +39,7 @@ r3 = createSingleComponentRegion('x,y','4*x-2+y^2-6*y');
 set_of_region_functions = insertRegionFunctionInfo(set_of_region_functions,r1,1);
 set_of_region_functions = insertRegionFunctionInfo(set_of_region_functions,r2,2);
 set_of_region_functions = insertRegionFunctionInfo(set_of_region_functions,r3,3);
-[xk,iteration]= optimiseSubgradientDescentMethod(set_of_region_functions,region_info_cell,hyperplanes,'x,y',[5;-5],0.1,0.001);
+[xk,~,A]= optimiseSubgradientDescentMethod(set_of_region_functions,region_info_cell,hyperplanes,'x,y',[8;-4],0.1,0.001);
 
 [hyperplanes,~,set_of_region_functions,region_info_cell] = createDomainWithRegions('x,y','x==0','x==5');
 r1 = createMultiComponentRegion('x,y','x^2-x+y^2-6*y+13','x^2-2*x+20+y^2-4*y');
@@ -51,4 +51,4 @@ r3 = createMultiComponentRegion('x,y','x+13+y^2-6*y','x+y^2-4*y+5');
 set_of_region_functions = insertRegionFunctionInfo(set_of_region_functions,r1,1);
 set_of_region_functions = insertRegionFunctionInfo(set_of_region_functions,r2,2);
 set_of_region_functions = insertRegionFunctionInfo(set_of_region_functions,r3,3);
-[xk,iteration]= optimiseVectorSubgradientDescentMethod(set_of_region_functions,region_info_cell,hyperplanes,'x,y',[5;-5],0.01,0.1);
+[xk,iteration]= optimiseVectorSubgradientDescentMethod(set_of_region_functions,region_info_cell,hyperplanes,'x,y',[5;-5],0.01,0.1,0);

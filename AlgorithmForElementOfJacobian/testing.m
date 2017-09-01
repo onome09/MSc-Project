@@ -1,7 +1,7 @@
 
 new_points = [-1 -1 -1; -1 -1 1; -1 1 -1; -1 1 1; 1 -1 -1; 1 -1 1; 1 1 -1; 1 1 1];
 
-%new_points = [-1 -1; -1 1; 1 -1; 1 1];
+%new_points = [-2 -2; -2 2; 2 -2; 2 2];
 
 [box_bounds] = getMinBoundingBox(new_points);
 
@@ -14,13 +14,14 @@ shape_vertices = hyper_rectangle_vertices;
     c = 0;
     r = 1.01;
 index = 1;
-iter = 1000;
+iter = 2000;
 h = waitbar(0,'Please wait...');
 i = 1;
-while i <iter
+while i <iter && index<=size(shape_vertices,1)
 
     [orthogonal_unit_hyperplane_vector,neighbouring_vertices,neighbouring_vertices_indices,vertex] = getUnitVectorHyperPlaneOfNeighbours(index, shape_vertices,G);
-    if (checkIfHyperRectangleSurface(orthogonal_unit_hyperplane_vector))
+    
+    if (checkIfHyperRectangleSurface(orthogonal_unit_hyperplane_vector)||~notTheSame(shape_vertices(index,:), shape_vertices(neighbouring_vertices_indices,:)))
         error = 1;
     else
         [value_of_equation] = getSupportFunctionValueMaximumForUnitVector(orthogonal_unit_hyperplane_vector);
