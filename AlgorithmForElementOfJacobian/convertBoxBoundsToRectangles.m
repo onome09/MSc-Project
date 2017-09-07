@@ -23,7 +23,7 @@ function [vertexes_of_hyperectangle,G,A] = convertBoxBoundsToRectangles(box_boun
             end
        end 
     end
-    
+    A
     vertexes_of_hyperectangle = r;
     
     G = graph(A);

@@ -1,34 +1,22 @@
+function [vertices] = approximateConvexSetWithSupportFunction(hypercube_vertices,iter)
+%hypercube_vertices = [-1 -1 -1 -1; -1 -1 -1 1; -1 -1 1 -1; -1 -1 1 1; -1 1 -1 -1; -1 1 -1 1; -1 1 1 -1; -1 1 1 1; 1 -1 -1 -1; 1 -1 -1 1; 1 -1 1 -1; 1 -1 1 1; 1 1 -1 -1; 1 1 -1 1; 1 1 1 -1; 1 1 1 1];
 
-%new_points = [-1 -1 -1; -1 -1 1; -1 1 -1; -1 1 1; 1 -1 -1; 1 -1 1; 1 1 -1; 1 1 1];
-new_points = [-1 -1 -1 -1; -1 -1 -1 1; -1 -1 1 -1; -1 -1 1 1; -1 1 -1 -1; -1 1 -1 1; -1 1 1 -1; -1 1 1 1; 1 -1 -1 -1; 1 -1 -1 1; 1 -1 1 -1; 1 -1 1 1; 1 1 -1 -1; 1 1 -1 1; 1 1 1 -1; 1 1 1 1];
-%new_points = [-3 -2 -2; -3 -2 2; -3 2 -2; -3 2 2; 3 -2 -2; 3 -2 2; 3 2 -2; 3 2 2];
-
-%new_points = [-1 -1; -1 1; 1 -1; 1 1];
-
-[box_bounds] = getMinBoundingBox(new_points);
+[box_bounds] = getMinBoundingBox(hypercube_vertices);
 
 [hyper_rectangle_vertices,G,edge_matrix] = convertBoxBoundsToRectangles(box_bounds);
 shape_vertices = hyper_rectangle_vertices;
-%plot sphere
-[x,y,z] = sphere;
-    a = 0;
-    b = 0;
-    c = 0;
-    r = 1.01;
+
 index = 1;
-iter = 2;
 h = waitbar(0,'Please wait...');
 i = 1;
 while i <iter && index<=size(shape_vertices,1)
     [orthogonal_unit_hyperplane_vector,neighbouring_vertices,neighbouring_vertices_indices,vertex] = getUnitVectorHyperPlaneOfNeighbours(index, shape_vertices,G);
     if (checkIfHyperRectangleSurface(orthogonal_unit_hyperplane_vector)||~notTheSame(shape_vertices(index,:), shape_vertices(neighbouring_vertices_indices,:)))
         error = 1;
-        disp('hi')
     else
-        [value_of_equation] = fourDHyperSphereSupportFunction(orthogonal_unit_hyperplane_vector);
+        [value_of_equation] = supportFunctionToEdit(orthogonal_unit_hyperplane_vector);
         [new_points_connected,index_of_connecting_points,indices_of_vertices_to_delete,error] = findNewPointsToConnectForNeighbouringVertices2(orthogonal_unit_hyperplane_vector,value_of_equation,index,shape_vertices,G);
         
-        %[new_points_connected,index_of_connecting_points,indices_of_vertices_to_delete,error] = findNewPointsToConnectForNeighbouringVertices2(orthogonal_unit_hyperplane_vector,value_of_equation,index,shape_vertices,G);
         if (notTheSame(shape_vertices(index,:), new_points_connected))
             edge_matrix_for_new_points = workOutConvexConnections(new_points_connected);
         else
@@ -41,27 +29,19 @@ while i <iter && index<=size(shape_vertices,1)
         index = 1;
         i = i+1;
         waitbar(i/iter,h)
-        disp(orthogonal_unit_hyperplane_vector)
-        disp(value_of_equation)
-        disp(new_points_connected)
-            
-    
+
+               
     else 
        index = index+1;
        
-       disp('d')
     end
-    %plot sphere and stuff lol
-    
-    %index = randi(size(shape_vertices,1));
-    i
+
     error = 0;
 end
 close(h)
 s = shape_vertices;
-%s= shape_vertices;
 
-if size(new_points,2) < 3
+if size(hypercube_vertices,2) == 2
     
     k = convhulln(s);
     x = s(:,1);
@@ -69,10 +49,12 @@ if size(new_points,2) < 3
     scatter(s(:,1),s(:,2));
 plot(x(k),y(k),'r-',x,y,'b*')
 else
-hold off
+    if size(hypercube_vertices,2) == 3
+        hold off
 
-    trisurf(convhulln(s),s(:,1), s(:,2),s(:,3));
-    hold on
-    
+        trisurf(convhulln(s),s(:,1), s(:,2),s(:,3));
+        hold on
+        rotate3d on
+    end
 end
-rotate3d on
+vertices = s;
